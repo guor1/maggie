@@ -13,11 +13,20 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.ProcessingEnvironment;
 
 /**
- * java关键字
+ * java关键字处理，可以扩展生成
  */
 public abstract class KeywordAnnotationProcessor extends AbstractProcessor {
+    /**
+     * 语法树对象
+     */
     protected JavacTrees trees;
+    /**
+     * 语法树工厂，可以创建所有节点
+     */
     protected TreeMaker treeMaker;
+    /**
+     * 命名相关的工厂
+     */
     protected Names names;
     /**
      * 访问修饰符
@@ -53,9 +62,5 @@ public abstract class KeywordAnnotationProcessor extends AbstractProcessor {
         this.TYPE_VOID = treeMaker.TypeIdent(TypeTag.VOID);
         this.TYPE_STRING = treeMaker.Ident(names.fromString("String"));
         this.THIS = treeMaker.Ident(names._this);
-    }
-
-    public JCTree.JCExpression ofConst(Object value) {
-        return treeMaker.Literal(value);
     }
 }

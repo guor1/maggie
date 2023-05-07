@@ -69,6 +69,9 @@ public abstract class BaseAnnotationProcessor extends KeywordAnnotationProcessor
         return treeMaker.Return(fieldAccess(variableDecl));
     }
 
+    /**
+     * this.xxx
+     */
     public JCTree.JCFieldAccess fieldAccess(VariableDecl variableDecl) {
         return treeMaker.Select(THIS, variableDecl.name());
     }
@@ -82,11 +85,17 @@ public abstract class BaseAnnotationProcessor extends KeywordAnnotationProcessor
         return names.fromString(getterName);
     }
 
+    /**
+     * 生成属性的setter方法名，返回Name对象
+     */
     public Name setterName(VariableDecl variableDecl) {
         String capitalizedName = capitalize(variableDecl.name().toString());
         return names.fromString("set" + capitalizedName);
     }
 
+    /**
+     * 是否boolean类型
+     */
     static boolean isBooleanType(Type type) {
         return type instanceof Type.JCPrimitiveType && type.getKind().equals(TypeKind.BOOLEAN);
     }
@@ -96,5 +105,12 @@ public abstract class BaseAnnotationProcessor extends KeywordAnnotationProcessor
             return name;
         }
         return name.substring(0, 1).toUpperCase(ENGLISH) + name.substring(1);
+    }
+
+    /**
+     * 定义常量
+     */
+    public JCTree.JCExpression ofConst(Object value) {
+        return treeMaker.Literal(value);
     }
 }
